@@ -12,7 +12,7 @@
             align-items: center;
             justify-content: center;
             height: 100vh;
-            background-color: gray; /* Gray background */
+            background-color: gray; /* Solid gray background */
             color: white;
             font-family: Arial, sans-serif;
         }
@@ -38,20 +38,23 @@
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
     <script>
+        // Set up scene, camera, and renderer
         const scene = new THREE.Scene();
-        const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-        const renderer = new THREE.WebGLRenderer({ alpha: false }); // No transparency
-        renderer.setSize(600, 600); // Canvas size
+        const camera = new THREE.PerspectiveCamera(75, 600 / 600, 0.1, 1000);
+        const renderer = new THREE.WebGLRenderer({ antialias: true });
+        renderer.setSize(600, 600); // Set canvas size
         document.getElementById('canvas').appendChild(renderer.domElement);
 
-        // Create a cube with equal dimensions
-        const geometry = new THREE.BoxGeometry(2, 2, 2); // Ensure it is a cube
-        const material = new THREE.MeshBasicMaterial({ color: 0xADD8E6 }); // Solid color material
+        // Create a cube
+        const geometry = new THREE.BoxGeometry(2, 2, 2); // Cube dimensions
+        const material = new THREE.MeshBasicMaterial({ color: 0xADD8E6 }); // Solid color
         const cube = new THREE.Mesh(geometry, material);
         scene.add(cube);
 
+        // Position the camera
         camera.position.z = 5;
 
+        // Animation loop
         function animate() {
             requestAnimationFrame(animate);
             cube.rotation.x += 0.01;
@@ -86,6 +89,7 @@
             isDragging = false;
         };
 
+        // Event listeners for mouse interactions
         renderer.domElement.addEventListener('mousedown', mouseDownHandler);
         renderer.domElement.addEventListener('mousemove', mouseMoveHandler);
         renderer.domElement.addEventListener('mouseup', mouseUpHandler);
