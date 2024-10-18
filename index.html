@@ -41,7 +41,7 @@
         // Set up scene, camera, and renderer
         const scene = new THREE.Scene();
         const camera = new THREE.PerspectiveCamera(75, 600 / 600, 0.1, 1000);
-        const renderer = new THREE.WebGLRenderer({ antialias: true });
+        const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: false }); // No transparency
         renderer.setSize(600, 600); // Set canvas size
         document.getElementById('canvas').appendChild(renderer.domElement);
 
