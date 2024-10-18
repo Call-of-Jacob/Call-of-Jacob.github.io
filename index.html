@@ -12,15 +12,17 @@
             align-items: center;
             justify-content: center;
             height: 100vh;
-            background-color: gray; /* Background set back to gray */
+            background-color: gray; /* Gray background */
             color: white;
             font-family: Arial, sans-serif;
         }
         h1 {
             font-size: 48px;
+            margin: 0; /* Remove margin */
         }
         h2 {
             font-size: 24px;
+            margin: 0; /* Remove margin */
         }
         #canvas {
             width: 600px; /* Canvas width */
@@ -38,13 +40,13 @@
     <script>
         const scene = new THREE.Scene();
         const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-        const renderer = new THREE.WebGLRenderer();
+        const renderer = new THREE.WebGLRenderer({ alpha: false }); // Set alpha to false for solid background
         renderer.setSize(600, 600); // Canvas size
         document.getElementById('canvas').appendChild(renderer.domElement);
 
         // Create a cube with equal dimensions
         const geometry = new THREE.BoxGeometry(2, 2, 2); // Cube dimensions
-        const material = new THREE.MeshBasicMaterial({ color: 0xADD8E6 }); // Solid color
+        const material = new THREE.MeshBasicMaterial({ color: 0xADD8E6 }); // Solid color material
         const cube = new THREE.Mesh(geometry, material);
         scene.add(cube);
 
