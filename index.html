@@ -28,6 +28,7 @@
             width: 600px; /* Canvas width */
             height: 600px; /* Canvas height */
             margin-top: 20px;
+            background-color: gray; /* Set canvas background color */
         }
     </style>
 </head>
@@ -40,6 +41,7 @@
     <script>
         // Set up scene, camera, and renderer
         const scene = new THREE.Scene();
+        scene.background = new THREE.Color(0x808080); // Set scene background to gray
         const camera = new THREE.PerspectiveCamera(75, 600 / 600, 0.1, 1000);
         const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: false }); // No transparency
         renderer.setSize(600, 600); // Set canvas size
