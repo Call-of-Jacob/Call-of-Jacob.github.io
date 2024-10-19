@@ -46,7 +46,7 @@
         renderer.setSize(600, 600); // Set canvas size
         document.getElementById('canvas').appendChild(renderer.domElement);
 
-        // Create a cube with black edges
+        // Create a cube with solid color
         const geometry = new THREE.BoxGeometry(2, 2, 2); // Cube dimensions
         const material = new THREE.MeshBasicMaterial({ color: 0xADD8E6 }); // Solid color
         const cube = new THREE.Mesh(geometry, material);
@@ -113,6 +113,7 @@
         renderer.domElement.addEventListener('mousedown', mouseDownHandler);
         renderer.domElement.addEventListener('mousemove', mouseMoveHandler);
         renderer.domElement.addEventListener('mouseup', mouseUpHandler);
+        renderer.domElement.addEventListener('mouseleave', mouseUpHandler); // Ensure it stops if mouse leaves
     </script>
 </body>
 </html>
