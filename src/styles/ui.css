@@ -1,0 +1,95 @@
+#hud {
+    pointer-events: none;
+    background: none;
+}
+
+.health-bar {
+    position: absolute;
+    bottom: 20px;
+    left: 20px;
+    width: 200px;
+    height: 20px;
+    background: rgba(0, 0, 0, 0.5);
+    border: 2px solid var(--accent-color);
+}
+
+.health-fill {
+    height: 100%;
+    width: 100%;
+    background-color: #ff0000;
+    transition: width 0.3s ease;
+}
+
+.health-text {
+    position: absolute;
+    width: 100%;
+    text-align: center;
+    line-height: 20px;
+    color: white;
+    text-shadow: 1px 1px 2px black;
+}
+
+.ammo-counter {
+    position: absolute;
+    bottom: 20px;
+    right: 20px;
+    font-size: 2em;
+    color: white;
+    text-shadow: 1px 1px 2px black;
+}
+
+.minimap {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    width: 150px;
+    height: 150px;
+    background: rgba(0, 0, 0, 0.5);
+    border: 2px solid var(--accent-color);
+    border-radius: 50%;
+}
+
+.kill-feed {
+    position: absolute;
+    top: 20px;
+    right: 180px;
+    width: 300px;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.kill-feed-item {
+    background: rgba(0, 0, 0, 0.5);
+    padding: 5px;
+    animation: fadeOut 3s forwards;
+}
+
+.score-display {
+    position: absolute;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 2em;
+    display: flex;
+    gap: 20px;
+}
+
+.team-scores {
+    display: flex;
+    gap: 40px;
+}
+
+.allies {
+    color: #4286f4;
+}
+
+.axis {
+    color: #f44242;
+}
+
+@keyframes fadeOut {
+    0% { opacity: 1; }
+    70% { opacity: 1; }
+    100% { opacity: 0; }
+} 

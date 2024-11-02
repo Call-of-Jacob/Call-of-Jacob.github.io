@@ -1,0 +1,12 @@
+{
+    "name": "City Map",
+    "layout": "Urban layout with buildings and streets",
+    "spawn_points": [
+        {"x": 10, "y": 0, "z": 5},
+        {"x": -5, "y": 0, "z": -10}
+    ],
+    "obstacles": [
+        {"type": "building", "position": {"x": 3, "y": 0, "z": 3}},
+        {"type": "wall", "position": {"x": 0, "y": 0, "z": -2}}
+    ]
+}

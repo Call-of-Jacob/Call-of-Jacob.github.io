@@ -1,0 +1,12 @@
+{
+    "name": "Beach Map",
+    "layout": "Sandy beach with dunes and ocean",
+    "spawn_points": [
+        {"x": 15, "y": 0, "z": 0},
+        {"x": -10, "y": 0, "z": 20}
+    ],
+    "obstacles": [
+        {"type": "dune", "position": {"x": 4, "y": 0, "z": 8}},
+        {"type": "rock", "position": {"x": -2, "y": 0, "z": 12}}
+    ]
+}

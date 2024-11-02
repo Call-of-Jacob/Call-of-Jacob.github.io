@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Call of Jacob - WWII FPS</title>
+    <link rel="stylesheet" href="styles/main.css">
+    <link rel="stylesheet" href="styles/ui.css">
+</head>
+<body>
+    <div id="game-container">
+        <canvas id="game-canvas"></canvas>
+        
+        <div id="loading-screen" class="overlay">
+            <div class="loading-content">
+                <h1>CALL OF JACOB</h1>
+                <div class="progress-bar">
+                    <div class="progress"></div>
+                </div>
+                <p class="loading-text">Loading assets...</p>
+            </div>
+        </div>
+
+        <div id="main-menu" class="overlay">
+            <div class="menu-content">
+                <h1>CALL OF JACOB</h1>
+                <div class="menu-buttons">
+                    <button id="play-btn" class="menu-button">PLAY</button>
+                    <button id="options-btn" class="menu-button">OPTIONS</button>
+                    <button id="profile-btn" class="menu-button">PROFILE</button>
+                    <button id="quit-btn" class="menu-button">QUIT</button>
+                </div>
+            </div>
+        </div>
+
+        <div id="hud" class="overlay hidden">
+            <div class="health-bar">
+                <div class="health-fill"></div>
+                <span class="health-text">100</span>
+            </div>
+            <div class="ammo-counter">
+                <span class="current-ammo">30</span>
+                <span class="total-ammo">120</span>
+            </div>
+            <div class="minimap"></div>
+            <div class="objective-marker"></div>
+            <div class="kill-feed"></div>
+            <div class="score-display">
+                <div class="team-scores">
+                    <span class="allies">0</span>
+                    <span class="axis">0</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Core Engine Scripts -->
+    <script src="engine/webgl.js"></script>
+    <script src="engine/shaders.js"></script>
+    <script src="engine/renderer.js"></script>
+    <script src="engine/audio.js"></script>
+    <script src="engine/physics.js"></script>
+    <script src="engine/input.js"></script>
+    
+    <!-- Game Logic Scripts -->
+    <script src="game/player.js"></script>
+    <script src="game/weapons.js"></script>
+    <script src="game/ai.js"></script>
+    <script src="game/networking.js"></script>
+    <script src="game/ui.js"></script>
+    <script src="game/main.js"></script>
+</body>
+</html> 

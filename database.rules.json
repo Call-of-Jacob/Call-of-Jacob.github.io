@@ -1,0 +1,21 @@
+{
+  "rules": {
+    "games": {
+      "$gameId": {
+        ".read": "auth != null",
+        ".write": "auth != null && root.child('games').child($gameId).child('players').hasChild(auth.uid)",
+        "players": {
+          "$playerId": {
+            ".write": "auth != null && auth.uid == $playerId"
+          }
+        }
+      }
+    },
+    "player_states": {
+      "$playerId": {
+        ".read": "auth != null",
+        ".write": "auth != null && auth.uid == $playerId"
+      }
+    }
+  }
+} 
