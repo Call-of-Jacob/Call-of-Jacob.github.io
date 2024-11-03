@@ -14,6 +14,7 @@ import { LoadoutCustomizationUI } from './game/ui/loadout_customization_ui';
 import { CombatSystem } from './game/combat_mechanics';
 import { MapLoader } from './game/map/MapLoader';
 import { auth as FirebaseAuth } from './config/firebase';
+import { AuthUI } from './ui/AuthUI';
 
 class CallOfJacob {
     constructor() {

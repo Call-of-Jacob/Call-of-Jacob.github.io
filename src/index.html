@@ -7,6 +7,40 @@
     <link rel="stylesheet" href="styles/main.css">
     <link rel="stylesheet" href="styles/ui.css">
     <link rel="stylesheet" href="styles/auth.css">
+    
+    <!-- Firebase SDK -->
+    <script type="module">
+        // Import the functions you need from the SDKs you need
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+        import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-analytics.js";
+        import { getAuth } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+        import { getFirestore } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+        import { getDatabase } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
+
+        // Your web app's Firebase configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyB3Hu6Nn0b3_30nqoN9kMlE3oaa04VijTI",
+            authDomain: "call-of-jacob.firebaseapp.com",
+            projectId: "call-of-jacob",
+            storageBucket: "call-of-jacob.firebasestorage.app",
+            messagingSenderId: "354335345072",
+            appId: "1:354335345072:web:a77085f10df89f92d4ee75",
+            measurementId: "G-6ZLPL9EHDM",
+            databaseURL: "https://call-of-jacob-default-rtdb.firebaseio.com"
+        };
+
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const analytics = getAnalytics(app);
+        const auth = getAuth(app);
+        const db = getFirestore(app);
+        const realtime = getDatabase(app);
+
+        window.firebaseApp = app;
+        window.firebaseAuth = auth;
+        window.firebaseDb = db;
+        window.firebaseRealtime = realtime;
+    </script>
 </head>
 <body>
     <div id="game-container">
@@ -31,29 +65,7 @@
         </div>
     </div>
 
-    <!-- Firebase SDK -->
-    <script src="https://www.gstatic.com/firebasejs/9.x.x/firebase-app.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.x.x/firebase-auth.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.x.x/firebase-firestore.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.x.x/firebase-database.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.x.x/firebase-analytics.js"></script>
-
-    <!-- Initialize Firebase -->
-    <script>
-        const firebaseConfig = {
-            apiKey: "AIzaSyB3Hu6Nn0b3_30nqoN9kMlE3oaa04VijTI",
-            authDomain: "call-of-jacob.firebaseapp.com",
-            projectId: "call-of-jacob",
-            storageBucket: "call-of-jacob.firebasestorage.app",
-            messagingSenderId: "354335345072",
-            appId: "1:354335345072:web:a77085f10df89f92d4ee75",
-            measurementId: "G-6ZLPL9EHDM",
-            databaseURL: "https://call-of-jacob-default-rtdb.firebaseio.com"
-        };
-        firebase.initializeApp(firebaseConfig);
-    </script>
-
     <!-- Game Scripts -->
-    <script src="dist/bundle.js"></script>
+    <script src="dist/bundle.js" type="module"></script>
 </body>
 </html> 
