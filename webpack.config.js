@@ -1,7 +1,5 @@
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-const CopyWebpackPlugin = require('copy-webpack-plugin');
-const TerserPlugin = require('terser-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 
@@ -9,7 +7,7 @@ module.exports = {
     entry: './src/index.js',
     output: {
         path: path.resolve(__dirname, 'dist'),
-        filename: '[name].[contenthash].js',
+        filename: 'bundle.js',
         publicPath: '/'
     },
     module: {
@@ -18,61 +16,36 @@ module.exports = {
                 test: /\.js$/,
                 exclude: /node_modules/,
                 use: {
-                    loader: 'babel-loader'
+                    loader: 'babel-loader',
+                    options: {
+                        presets: ['@babel/preset-env']
+                    }
                 }
             },
             {
                 test: /\.css$/,
-                use: [
-                    MiniCssExtractPlugin.loader,
-                    'css-loader'
-                ]
+                use: [MiniCssExtractPlugin.loader, 'css-loader']
             },
             {
-                test: /\.(png|svg|jpg|jpeg|gif)$/i,
-                type: 'asset/resource',
-            },
-            {
-                test: /\.(woff|woff2|eot|ttf|otf)$/i,
-                type: 'asset/resource',
-            },
-            {
-                test: /\.(wav|mp3)$/i,
-                type: 'asset/resource',
+                test: /\.(png|svg|jpg|jpeg|gif|fbx|wav|mp3)$/i,
+                type: 'asset/resource'
             }
         ]
     },
     plugins: [
         new CleanWebpackPlugin(),
         new HtmlWebpackPlugin({
-            template: './src/index.html',
-            filename: 'index.html'
+            template: './src/index.html'
         }),
-        new MiniCssExtractPlugin({
-            filename: '[name].[contenthash].css'
-        }),
-        new CopyWebpackPlugin({
-            patterns: [
-                { 
-                    from: 'assets', 
-                    to: 'assets' 
-                }
-            ]
-        })
+        new MiniCssExtractPlugin()
     ],
-    optimization: {
-        minimizer: [new TerserPlugin()],
-        splitChunks: {
-            chunks: 'all',
-        },
-    },
     devServer: {
+        historyApiFallback: true,
         static: {
-            directory: path.join(__dirname, 'dist'),
+            directory: path.join(__dirname, 'dist')
         },
         compress: true,
         port: 3000,
-        hot: true,
-        historyApiFallback: true
+        hot: true
     }
-}; 
+};
