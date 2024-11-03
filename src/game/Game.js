@@ -24,4 +24,4 @@ update(deltaTime) {
     if (interpolatedState) {
         this.updateOtherPlayers(interpolatedState);
     }
-}; // Added semicolon here
+};
