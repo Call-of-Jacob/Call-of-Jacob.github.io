@@ -6,6 +6,7 @@
     <title>Call of Jacob - WWII FPS</title>
     <link rel="stylesheet" href="styles/main.css">
     <link rel="stylesheet" href="styles/ui.css">
+    <link rel="stylesheet" href="styles/auth.css">
 </head>
 <body>
     <div id="game-container">
@@ -21,53 +22,38 @@
             </div>
         </div>
 
-        <div id="main-menu" class="overlay">
-            <div class="menu-content">
-                <h1>CALL OF JACOB</h1>
-                <div class="menu-buttons">
-                    <button id="play-btn" class="menu-button">PLAY</button>
-                    <button id="options-btn" class="menu-button">OPTIONS</button>
-                    <button id="profile-btn" class="menu-button">PROFILE</button>
-                    <button id="quit-btn" class="menu-button">QUIT</button>
-                </div>
-            </div>
+        <div id="auth-screen" class="overlay hidden">
+            <!-- Auth UI will be injected here -->
         </div>
 
-        <div id="hud" class="overlay hidden">
-            <div class="health-bar">
-                <div class="health-fill"></div>
-                <span class="health-text">100</span>
-            </div>
-            <div class="ammo-counter">
-                <span class="current-ammo">30</span>
-                <span class="total-ammo">120</span>
-            </div>
-            <div class="minimap"></div>
-            <div class="objective-marker"></div>
-            <div class="kill-feed"></div>
-            <div class="score-display">
-                <div class="team-scores">
-                    <span class="allies">0</span>
-                    <span class="axis">0</span>
-                </div>
-            </div>
+        <div id="game-ui" class="hidden">
+            <!-- Game UI will be injected here -->
         </div>
     </div>
 
-    <!-- Core Engine Scripts -->
-    <script src="engine/webgl.js"></script>
-    <script src="engine/shaders.js"></script>
-    <script src="engine/renderer.js"></script>
-    <script src="engine/audio.js"></script>
-    <script src="engine/physics.js"></script>
-    <script src="engine/input.js"></script>
-    
-    <!-- Game Logic Scripts -->
-    <script src="game/player.js"></script>
-    <script src="game/weapons.js"></script>
-    <script src="game/ai.js"></script>
-    <script src="game/networking.js"></script>
-    <script src="game/ui.js"></script>
-    <script src="game/main.js"></script>
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/9.x.x/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.x.x/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.x.x/firebase-firestore.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.x.x/firebase-database.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.x.x/firebase-analytics.js"></script>
+
+    <!-- Initialize Firebase -->
+    <script>
+        const firebaseConfig = {
+            apiKey: "AIzaSyB3Hu6Nn0b3_30nqoN9kMlE3oaa04VijTI",
+            authDomain: "call-of-jacob.firebaseapp.com",
+            projectId: "call-of-jacob",
+            storageBucket: "call-of-jacob.firebasestorage.app",
+            messagingSenderId: "354335345072",
+            appId: "1:354335345072:web:a77085f10df89f92d4ee75",
+            measurementId: "G-6ZLPL9EHDM",
+            databaseURL: "https://call-of-jacob-default-rtdb.firebaseio.com"
+        };
+        firebase.initializeApp(firebaseConfig);
+    </script>
+
+    <!-- Game Scripts -->
+    <script src="dist/bundle.js"></script>
 </body>
 </html> 

@@ -6,27 +6,11 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 
 module.exports = {
-    entry: {
-        main: './src/index.js',
-        vendor: ['socket.io-client', 'three']
-    },
+    entry: './src/index.js',
     output: {
         path: path.resolve(__dirname, 'dist'),
-        filename: 'bundle.js',
+        filename: '[name].[contenthash].js',
         publicPath: '/'
-    },
-    optimization: {
-        minimizer: [new TerserPlugin()],
-        splitChunks: {
-            chunks: 'all',
-            cacheGroups: {
-                vendor: {
-                    test: /[\\/]node_modules[\\/]/,
-                    name: 'vendors',
-                    chunks: 'all'
-                }
-            }
-        }
     },
     module: {
         rules: [
@@ -34,39 +18,61 @@ module.exports = {
                 test: /\.js$/,
                 exclude: /node_modules/,
                 use: {
-                    loader: 'babel-loader',
-                    options: {
-                        presets: ['@babel/preset-env']
-                    }
-                }
-            },
-            {
-                test: /\.(png|jpg|gif|wav|mp3)$/,
-                type: 'asset/resource',
-                generator: {
-                    filename: 'assets/[hash][ext][query]'
+                    loader: 'babel-loader'
                 }
             },
             {
                 test: /\.css$/,
-                use: ['style-loader', 'css-loader']
+                use: [
+                    MiniCssExtractPlugin.loader,
+                    'css-loader'
+                ]
+            },
+            {
+                test: /\.(png|svg|jpg|jpeg|gif)$/i,
+                type: 'asset/resource',
+            },
+            {
+                test: /\.(woff|woff2|eot|ttf|otf)$/i,
+                type: 'asset/resource',
+            },
+            {
+                test: /\.(wav|mp3)$/i,
+                type: 'asset/resource',
             }
         ]
     },
     plugins: [
+        new CleanWebpackPlugin(),
         new HtmlWebpackPlugin({
             template: './src/index.html',
-            minify: {
-                collapseWhitespace: true,
-                removeComments: true
-            }
+            filename: 'index.html'
+        }),
+        new MiniCssExtractPlugin({
+            filename: '[name].[contenthash].css'
         }),
         new CopyWebpackPlugin({
             patterns: [
-                { from: 'public', to: '' },
-                { from: 'assets', to: 'assets' }
+                { 
+                    from: 'assets', 
+                    to: 'assets' 
+                }
             ]
-        }),
-        new CleanWebpackPlugin()
-    ]
+        })
+    ],
+    optimization: {
+        minimizer: [new TerserPlugin()],
+        splitChunks: {
+            chunks: 'all',
+        },
+    },
+    devServer: {
+        static: {
+            directory: path.join(__dirname, 'dist'),
+        },
+        compress: true,
+        port: 3000,
+        hot: true,
+        historyApiFallback: true
+    }
 }; 

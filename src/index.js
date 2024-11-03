@@ -1,7 +1,7 @@
 import { GameInitializer } from './game/core/GameInitializer';
 import { NetworkClient } from './networking/NetworkClient';
 import { AudioManager } from './audio/AudioManager';
-import { UIManager } from './ui/UIManager';
+import UIManager from './ui/UIManager';
 import { Router } from './router/Router';
 import { ErrorTracker } from './utils/ErrorTracker';
 import { LoadingScreen } from './ui/LoadingScreen';
@@ -13,8 +13,7 @@ import { ProgressionSystem } from './game/progression_system';
 import { LoadoutCustomizationUI } from './game/ui/loadout_customization_ui';
 import { CombatSystem } from './game/combat_mechanics';
 import { MapLoader } from './game/map/MapLoader';
-import { AuthUI } from './ui/AuthUI';
-import { FirebaseAuth } from './auth/FirebaseAuth';
+import { auth as FirebaseAuth } from './config/firebase';
 
 class CallOfJacob {
     constructor() {
