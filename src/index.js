@@ -13,11 +13,12 @@ import { ProgressionSystem } from './game/progression_system';
 import { LoadoutCustomizationUI } from './game/ui/loadout_customization_ui';
 import { CombatSystem } from './game/combat_mechanics';
 import { MapLoader } from './game/map/MapLoader';
-import { auth as FirebaseAuth } from './config/firebase';
+import { auth } from './config/firebase';
 import { AuthUI } from './ui/AuthUI';
 
 class CallOfJacob {
     constructor() {
+        this.loadingScreen = new LoadingScreen();
         this.authUI = new AuthUI();
         this.initializeSystems();
         this.checkAuth();
@@ -121,16 +122,34 @@ class CallOfJacob {
     }
 
     async checkAuth() {
-        const user = await FirebaseAuth.getCurrentUser();
-        if (user) {
-            this.initialize();
-        } else {
-            this.authUI.show();
+        try {
+            // Show loading screen
+            this.loadingScreen.show();
+            
+            // Wait for Firebase Auth to initialize
+            await new Promise((resolve) => {
+                const unsubscribe = auth.onAuthStateChanged((user) => {
+                    unsubscribe();
+                    resolve(user);
+                });
+            });
+
+            // Hide loading screen
+            this.loadingScreen.hide();
+
+            if (auth.currentUser) {
+                this.initialize();
+            } else {
+                this.authUI.show();
+            }
+        } catch (error) {
+            console.error('Auth error:', error);
+            this.loadingScreen.showError('Authentication failed');
         }
     }
 }
 
-// Start the game when the DOM is loaded
+// Initialize game when DOM is loaded
 document.addEventListener('DOMContentLoaded', () => {
     window.game = new CallOfJacob();
 }); 
