@@ -12,8 +12,8 @@ module.exports = {
     },
     output: {
         path: path.resolve(__dirname, 'dist'),
-        filename: 'js/[name].[contenthash].js',
-        clean: true
+        filename: 'bundle.js',
+        publicPath: '/'
     },
     optimization: {
         minimizer: [new TerserPlugin()],
