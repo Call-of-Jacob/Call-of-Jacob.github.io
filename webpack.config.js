@@ -28,7 +28,7 @@ module.exports = {
                 use: [MiniCssExtractPlugin.loader, 'css-loader']
             },
             {
-                test: /\.(png|svg|jpg|jpeg|gif|fbx|wav|mp3)$/i,
+                test: /\.(png|svg|jpg|jpeg|gif|ico|fbx|wav|mp3)$/i,
                 type: 'asset/resource'
             }
         ]
@@ -37,14 +37,15 @@ module.exports = {
         new CleanWebpackPlugin(),
         new HtmlWebpackPlugin({
             template: './src/index.html',
-            inject: true
+            inject: true,
+            favicon: './public/favicon.ico'
         }),
         new MiniCssExtractPlugin({
             filename: '[name].[contenthash].css'
         }),
         new CopyWebpackPlugin({
             patterns: [
-                { from: 'public/favicon.ico', to: 'favicon.ico' },
+                { from: 'public', to: '' },
                 { from: 'src/styles', to: 'styles' },
                 { from: 'assets', to: 'assets' }
             ]

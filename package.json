@@ -5,28 +5,19 @@
         "dev": "webpack serve --mode development",
         "build": "webpack --mode production",
         "start": "node server/index.js",
-        "dev:server": "nodemon server/index.js",
+        "deploy": "npm run build && firebase deploy",
         "test": "jest",
-        "lint": "eslint src/",
-        "backup": "node scripts/backup.js",
-        "deploy": "bash scripts/deploy.sh",
-        "docker:build": "docker-compose build",
-        "docker:up": "docker-compose up -d",
-        "docker:down": "docker-compose down"
+        "lint": "eslint src/"
     },
     "dependencies": {
         "bcryptjs": "^2.4.3",
         "compression": "^1.7.5",
         "cors": "^2.8.5",
         "express": "^4.21.1",
-        "express-rate-limit": "^7.4.1",
         "firebase": "^9.x.x",
         "firebase-admin": "^11.x.x",
         "helmet": "^8.0.0",
         "jsonwebtoken": "^9.0.2",
-        "mongodb": "^4.5.0",
-        "mongoose": "^8.8.0",
-        "nodemon": "^3.1.7",
         "socket.io": "^4.8.1",
         "socket.io-client": "^4.5.0",
         "three": "^0.137.0"
@@ -39,13 +30,15 @@
         "copy-webpack-plugin": "^10.2.4",
         "css-loader": "^6.11.0",
         "eslint": "^8.9.0",
-        "html-webpack-plugin": "^5.6.3",
+        "html-webpack-plugin": "^5.6.0",
         "jest": "^27.5.1",
-        "mini-css-extract-plugin": "^2.9.2",
+        "mini-css-extract-plugin": "^2.9.0",
         "style-loader": "^3.3.4",
-        "terser-webpack-plugin": "^5.3.10",
         "webpack": "^5.96.1",
         "webpack-cli": "^4.10.0",
         "webpack-dev-server": "^4.15.2"
+    },
+    "engines": {
+        "node": ">=20.0.0"
     }
 }
