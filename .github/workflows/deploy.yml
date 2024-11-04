@@ -25,6 +25,9 @@ jobs:
           npm ci
           npm install -g firebase-tools@latest
 
+      - name: Create dist directory
+        run: mkdir -p dist
+
       - name: Build
         run: npm run build
         env:
