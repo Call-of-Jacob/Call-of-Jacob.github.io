@@ -2,6 +2,7 @@ const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
+const CopyWebpackPlugin = require('copy-webpack-plugin');
 
 module.exports = {
     entry: './src/index.js',
@@ -35,9 +36,19 @@ module.exports = {
     plugins: [
         new CleanWebpackPlugin(),
         new HtmlWebpackPlugin({
-            template: './src/index.html'
+            template: './src/index.html',
+            inject: true
         }),
-        new MiniCssExtractPlugin()
+        new MiniCssExtractPlugin({
+            filename: '[name].[contenthash].css'
+        }),
+        new CopyWebpackPlugin({
+            patterns: [
+                { from: 'public/favicon.ico', to: 'favicon.ico' },
+                { from: 'src/styles', to: 'styles' },
+                { from: 'assets', to: 'assets' }
+            ]
+        })
     ],
     devServer: {
         historyApiFallback: true,

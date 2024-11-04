@@ -4,9 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Call of Jacob - WWII FPS</title>
-    <link rel="stylesheet" href="styles/main.css">
-    <link rel="stylesheet" href="styles/ui.css">
-    <link rel="stylesheet" href="styles/auth.css">
+    <link rel="icon" type="image/x-icon" href="/assets/favicon.ico">
     
     <!-- Firebase SDK -->
     <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
@@ -29,6 +27,7 @@
         };
 
         // Initialize Firebase
+        window.firebase = firebase;
         firebase.initializeApp(firebaseConfig);
     </script>
 </head>
@@ -54,8 +53,5 @@
             <!-- Game UI will be injected here -->
         </div>
     </div>
-
-    <!-- Game Scripts -->
-    <script src="bundle.js"></script>
 </body>
 </html> 

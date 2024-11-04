@@ -1,4 +1,4 @@
-class LoadingScreen {
+export class LoadingScreen {
     constructor() {
         this.element = document.getElementById('loading-screen');
         this.progressBar = this.element.querySelector('.progress-bar');
@@ -27,4 +27,6 @@ class LoadingScreen {
         this.statusText.textContent = `Error: ${message}`;
         this.statusText.classList.add('error');
     }
-} 
+}
+
+export default LoadingScreen; 
