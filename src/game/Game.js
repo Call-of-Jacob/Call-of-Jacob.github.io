@@ -1,9 +1,19 @@
-class Game {
+export class Game {
     constructor() {
-        this.matchmaking = MatchmakingService;
-        this.stateReconciliation = StateReconciliation;
+        this.matchmaking = null; // Will initialize later
+        this.stateReconciliation = null; // Will initialize later
         this.lastUpdate = performance.now();
         this.isRunning = false;
+        this.init();
+    }
+
+    async init() {
+        // Initialize components after import
+        const { default: MatchmakingService } = await import('./services/MatchmakingService');
+        const { default: StateReconciliation } = await import('./services/StateReconciliation');
+        
+        this.matchmaking = MatchmakingService;
+        this.stateReconciliation = StateReconciliation;
     }
 
     start() {
@@ -12,29 +22,24 @@ class Game {
     }
 
     update(deltaTime) {
-        // Handle inputs
-        const input = this.getPlayerInput();
-        this.stateReconciliation.applyInput(input);
+        if (this.stateReconciliation) {
+            const input = this.getPlayerInput();
+            this.stateReconciliation.applyInput(input);
+        }
     }
 
     getPlayerInput() {
         return {
-            forward: this.inputManager.isMovingForward(),
-            backward: this.inputManager.isMovingBackward(),
-            left: this.inputManager.isMovingLeft(),
-            right: this.inputManager.isMovingRight(),
-            jump: this.inputManager.isJumping(),
-            shoot: this.inputManager.isMouseButtonPressed(0),
-            aim: this.inputManager.isMouseButtonPressed(1),
-            reload: this.inputManager.isReloading(),
-            mouseDelta: this.inputManager.getMouseDelta()
+            forward: false,
+            backward: false,
+            left: false,
+            right: false,
+            jump: false,
+            shoot: false,
+            aim: false,
+            reload: false,
+            mouseDelta: { x: 0, y: 0 }
         };
-    }
-
-    joinMatch(matchId) {
-        // Initialize match state
-        this.currentMatch = matchId;
-        this.networkManager.connect(matchId);
     }
 
     gameLoop() {
@@ -55,4 +60,4 @@ class Game {
     }
 }
 
-export default new Game();
+export default Game;

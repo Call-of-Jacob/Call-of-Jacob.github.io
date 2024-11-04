@@ -9,7 +9,8 @@ module.exports = {
     output: {
         path: path.resolve(__dirname, 'dist'),
         filename: 'bundle.js',
-        publicPath: '/'
+        publicPath: '/',
+        clean: true
     },
     module: {
         rules: [
@@ -19,7 +20,19 @@ module.exports = {
                 use: {
                     loader: 'babel-loader',
                     options: {
-                        presets: ['@babel/preset-env']
+                        presets: [
+                            ['@babel/preset-env', {
+                                targets: {
+                                    browsers: ['last 2 versions']
+                                },
+                                modules: false,
+                                useBuiltIns: 'usage',
+                                corejs: 3
+                            }]
+                        ],
+                        plugins: [
+                            '@babel/plugin-transform-runtime'
+                        ]
                     }
                 }
             },
@@ -51,6 +64,10 @@ module.exports = {
             ]
         })
     ],
+    resolve: {
+        extensions: ['.js'],
+        modules: [path.resolve(__dirname, 'src'), 'node_modules']
+    },
     devServer: {
         historyApiFallback: true,
         static: {
