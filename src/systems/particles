@@ -1,0 +1,196 @@
+import { GAME_CONSTANTS } from '../config/constants';
+import Logger from '../utils/Logger';
+
+class Particle {
+    constructor(config) {
+        this.position = { ...config.position };
+        this.velocity = {
+            x: (Math.random() - 0.5) * config.speed,
+            y: (Math.random() - 0.5) * config.speed,
+            z: (Math.random() - 0.5) * config.speed
+        };
+        this.color = config.color;
+        this.size = config.size;
+        this.life = config.duration;
+        this.maxLife = config.duration;
+        this.active = true;
+        this.opacity = 1;
+        this.texture = config.texture || null;
+    }
+
+    update(deltaTime) {
+        this.life -= deltaTime;
+        if (this.life <= 0) {
+            this.active = false;
+            return;
+        }
+
+        // Update position
+        this.position.x += this.velocity.x * deltaTime;
+        this.position.y += this.velocity.y * deltaTime;
+        this.position.z += this.velocity.z * deltaTime;
+
+        // Update opacity based on life
+        this.opacity = this.life / this.maxLife;
+
+        // Apply gravity if specified
+        if (this.useGravity) {
+            this.velocity.y += GAME_CONSTANTS.PHYSICS.GRAVITY * deltaTime;
+        }
+    }
+
+    dispose() {
+        if (this.texture) {
+            this.texture.dispose();
+        }
+    }
+}
+
+class ParticleEmitter {
+    constructor(config) {
+        this.config = config;
+        this.particles = new Set();
+        this.active = true;
+        this.elapsed = 0;
+        this.nextEmitTime = 0;
+        this.particlesEmitted = 0;
+    }
+
+    update(deltaTime) {
+        if (!this.active) return;
+
+        this.elapsed += deltaTime;
+
+        // Emit new particles
+        if (this.config.continuous || this.particles.size < this.config.count) {
+            this.emit(deltaTime);
+        }
+
+        // Update existing particles
+        for (const particle of this.particles) {
+            particle.update(deltaTime);
+            if (!particle.active) {
+                particle.dispose();
+                this.particles.delete(particle);
+            }
+        }
+
+        // Check if emitter should deactivate
+        if (!this.config.continuous && this.particlesEmitted >= this.config.count) {
+            this.active = this.particles.size > 0;
+        }
+    }
+
+    emit(deltaTime) {
+        if (this.elapsed < this.nextEmitTime) return;
+
+        const particlesToEmit = this.config.continuous ? 
+            Math.floor(deltaTime * this.config.emissionRate) : 
+            Math.min(this.config.count - this.particlesEmitted, this.config.burstCount || 1);
+
+        for (let i = 0; i < particlesToEmit; i++) {
+            const particle = new Particle({
+                position: { ...this.config.position },
+                speed: this.config.speed * (0.8 + Math.random() * 0.4),
+                size: this.config.size * (0.8 + Math.random() * 0.4),
+                color: this.config.color,
+                duration: this.config.duration * (0.8 + Math.random() * 0.4),
+                texture: this.config.texture,
+                useGravity: this.config.useGravity
+            });
+            this.particles.add(particle);
+            this.particlesEmitted++;
+        }
+
+        this.nextEmitTime = this.elapsed + (1 / this.config.emissionRate);
+    }
+
+    dispose() {
+        for (const particle of this.particles) {
+            particle.dispose();
+        }
+        this.particles.clear();
+        this.active = false;
+    }
+}
+
+class ParticleSystem {
+    constructor() {
+        this.emitters = new Set();
+        this.maxParticles = 10000;
+        this.currentParticleCount = 0;
+        this.lastGarbageCollection = 0;
+        this.garbageCollectionInterval = 1000; // 1 second
+    }
+
+    createEmitter(config) {
+        const emitter = new ParticleEmitter(config);
+        this.emitters.add(emitter);
+        return emitter;
+    }
+
+    update(deltaTime) {
+        this.currentParticleCount = 0;
+
+        for (const emitter of this.emitters) {
+            emitter.update(deltaTime);
+            this.currentParticleCount += emitter.particles.size;
+
+            if (!emitter.active && emitter.particles.size === 0) {
+                emitter.dispose();
+                this.emitters.delete(emitter);
+            }
+        }
+
+        // Garbage collection
+        this.performGarbageCollection(deltaTime);
+    }
+
+    performGarbageCollection(deltaTime) {
+        this.lastGarbageCollection += deltaTime * 1000;
+
+        if (this.lastGarbageCollection >= this.garbageCollectionInterval) {
+            this.lastGarbageCollection = 0;
+
+            if (this.currentParticleCount > this.maxParticles) {
+                Logger.warn(`Particle limit exceeded: ${this.currentParticleCount}/${this.maxParticles}`);
+                this.cleanupExcessParticles();
+            }
+        }
+    }
+
+    cleanupExcessParticles() {
+        const excessCount = this.currentParticleCount - this.maxParticles;
+        let removedCount = 0;
+
+        for (const emitter of this.emitters) {
+            if (removedCount >= excessCount) break;
+
+            const particlesToRemove = Math.min(
+                excessCount - removedCount,
+                Math.ceil(emitter.particles.size * 0.2) // Remove up to 20% of particles
+            );
+
+            let i = 0;
+            for (const particle of emitter.particles) {
+                if (i >= particlesToRemove) break;
+                particle.dispose();
+                emitter.particles.delete(particle);
+                i++;
+                removedCount++;
+            }
+        }
+
+        Logger.info(`Cleaned up ${removedCount} particles`);
+    }
+
+    dispose() {
+        for (const emitter of this.emitters) {
+            emitter.dispose();
+        }
+        this.emitters.clear();
+        this.currentParticleCount = 0;
+    }
+}
+
+export default new ParticleSystem(); 

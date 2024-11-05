@@ -8,8 +8,9 @@ module.exports = {
     entry: './src/index.js',
     output: {
         path: path.resolve(__dirname, 'dist'),
-        filename: 'bundle.[contenthash].js',
-        publicPath: '/'
+        filename: 'bundle.js',
+        publicPath: '/',
+        clean: true
     },
     module: {
         rules: [
@@ -19,8 +20,19 @@ module.exports = {
                 use: {
                     loader: 'babel-loader',
                     options: {
-                        presets: ['@babel/preset-env'],
-                        plugins: ['@babel/plugin-transform-runtime']
+                        presets: [
+                            ['@babel/preset-env', {
+                                targets: {
+                                    browsers: ['last 2 versions']
+                                },
+                                modules: false,
+                                useBuiltIns: 'usage',
+                                corejs: 3
+                            }]
+                        ],
+                        plugins: [
+                            '@babel/plugin-transform-runtime'
+                        ]
                     }
                 }
             },
@@ -34,44 +46,55 @@ module.exports = {
             }
         ]
     },
-    resolve: {
-        extensions: ['.js'],
-        alias: {
-            '@core': path.resolve(__dirname, 'src/core'),
-            '@features': path.resolve(__dirname, 'src/features'),
-            '@ui': path.resolve(__dirname, 'src/ui'),
-            '@systems': path.resolve(__dirname, 'src/systems'),
-            '@services': path.resolve(__dirname, 'src/services'),
-            '@utils': path.resolve(__dirname, 'src/utils'),
-            '@styles': path.resolve(__dirname, 'src/styles'),
-            '@engine': path.resolve(__dirname, 'src/engine')
-        }
-    },
     plugins: [
         new CleanWebpackPlugin(),
         new HtmlWebpackPlugin({
             template: './src/index.html',
-            favicon: './public/favicon.ico'
+            inject: true,
+            favicon: './public/favicon.ico',
+            filename: 'index.html'
         }),
         new MiniCssExtractPlugin({
             filename: '[name].[contenthash].css'
         }),
         new CopyWebpackPlugin({
             patterns: [
-                { 
+                {
                     from: 'public',
                     to: '',
                     globOptions: {
                         ignore: ['**/index.html']
                     }
                 },
-                { from: 'assets', to: 'assets' }
+                {
+                    from: 'src/styles',
+                    to: 'styles'
+                },
+                {
+                    from: 'assets',
+                    to: 'assets'
+                }
             ]
         })
     ],
+    resolve: {
+        extensions: ['.js'],
+        modules: [
+            path.resolve(__dirname, 'src'),
+            'node_modules'
+        ],
+        alias: {
+            '@services': path.resolve(__dirname, 'src/services'),
+            '@game': path.resolve(__dirname, 'src/game')
+        }
+    },
     devServer: {
         historyApiFallback: true,
-        hot: true,
-        port: 3000
+        static: {
+            directory: path.join(__dirname, 'dist')
+        },
+        compress: true,
+        port: 3000,
+        hot: true
     }
-}; 
+};
