@@ -1,6 +1,7 @@
 {
     "name": "call-of-jacob",
     "version": "1.0.0",
+    "homepage": "https://call-of-jacob.github.io",
     "scripts": {
         "predeploy": "npm run build",
         "deploy": "gh-pages -d dist",
