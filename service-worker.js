@@ -1,0 +1,1 @@
+const CACHE_NAME="call-of-jacob-v1",ASSETS_TO_CACHE=["/","/index.html","/styles/main.css","/scripts/bundle.js","/assets/textures/","/assets/models/","/assets/sounds/"];self.addEventListener("install",(s=>{s.waitUntil(caches.open(CACHE_NAME).then((s=>s.addAll(ASSETS_TO_CACHE))))}));
