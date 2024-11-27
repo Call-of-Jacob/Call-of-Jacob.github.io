@@ -1,1 +1,17 @@
- 
+// Create a 16x16 pixel favicon with a red "J" on it
+const canvas = document.createElement('canvas');
+canvas.width = 16;
+canvas.height = 16;
+const ctx = canvas.getContext('2d');
+
+// Background
+ctx.fillStyle = '#8b0000';
+ctx.fillRect(0, 0, 16, 16);
+
+// Letter "J"
+ctx.fillStyle = '#ffffff';
+ctx.font = 'bold 12px Arial';
+ctx.fillText('J', 4, 12);
+
+// Convert to .ico format
+const dataUrl = canvas.toDataURL('image/x-icon'); 
